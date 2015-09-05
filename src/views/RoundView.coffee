@@ -3,10 +3,10 @@ class window.RoundView extends Backbone.View
   className: 'valign-wrapper round row'
 
   template: _.template '
-    <div class="col s4 blue-grey valign">
+    <div class="col s4 valign">
       <div class="section center-align">
-        <button class="hit-button">Hit</button>
-        <button class="stand-button">Stand</button>
+        <button class="hit-button waves-effect waves-light btn">Hit</button>
+        <button class="stand-button waves-effect waves-light btn">Stand</button>
       </div>
       <div class="divider"></div>
       <div class="section bettinggoeshere"></div>

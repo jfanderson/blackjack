@@ -29,7 +29,10 @@ class window.Hand extends Backbone.Collection
       @scores()[1]
 
   checkBlackJack: ->
-    @scores()[1] == 21
+    if @isDealer and @hasAce()
+      @at(0).get('value') + @at(1).get('value') == 11
+    else
+      @scores()[1] == 21
 
   checkBust: ->
     @minScore() > 21

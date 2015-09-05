@@ -2,11 +2,6 @@ body {
  background: url("../img/background.jpg");
 }
 
-button {
-  width: 20%;
-  margin: 1.5em 0;
-}
-
 .button-col {
   background: none;
 }
@@ -43,4 +38,11 @@ button {
 .golden {
   background-image: -webkit-linear-gradient(#E8D800, #E0CF00 52%, #A86800 55%, #A86800 );
   text-shadow: -0.02em -0.03em 0.005em rgba(255, 255, 0, 0.56);
+}
+
+.btn {
+  background-color: #6a1b9a;
+  margin: 1.5em 0;
+  border-radius: 5px;
+  width: 40%;
 }
