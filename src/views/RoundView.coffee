@@ -1,11 +1,21 @@
 class window.RoundView extends Backbone.View
-  # tagName: 'div'
-  # className: 'round'
+  
+  className: 'valign-wrapper round row'
 
   template: _.template '
-    <button class="hit-button">Hit</button> <button class="stand-button">Stand</button>
-    <div class="player-hand-container"></div>
-    <div class="dealer-hand-container"></div>
+    <div class="col s4 blue-grey valign">
+      <div class="section center-align">
+        <button class="hit-button">Hit</button>
+        <button class="stand-button">Stand</button>
+      </div>
+      <div class="divider"></div>
+      <div class="section bettinggoeshere"></div>
+    </div>
+    <div class="col s8">
+      <div class="player-hand-container section"></div>
+      <div class="divider"></div>
+      <div class="dealer-hand-container section"></div>
+    </div>
   '
 
   events:

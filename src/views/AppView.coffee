@@ -1,5 +1,7 @@
 class window.AppView extends Backbone.View
 
+  className: 'app container'
+
   template: _.template '
     <div class="round-container"></div>
   '

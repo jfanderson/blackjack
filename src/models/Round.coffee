@@ -44,3 +44,4 @@ class window.Round extends Backbone.Model
   endGame: (eventName, gameOverMessage) ->
     # might want to pass more complicated object with trigger later (e.g. player/dealer earnings multiplier)
     @trigger eventName, gameOverMessage
+    
