@@ -4,7 +4,10 @@ class window.App extends Backbone.Model
   initialize: ->
     @set 'deck', deck = new Deck()
     @set 'game', game = new Game(@get('deck'))
-    
+    @set 'dealerChips', 5000
+    @set 'playerChips', 100
+    @set 'bet', 0
+
     @listenTo @get('game'), 'player_wins', (message) -> 
       console.log(message)
     @listenTo @get('game'), 'dealer_wins', (message) -> 

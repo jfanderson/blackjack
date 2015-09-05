@@ -3,7 +3,6 @@ class window.AppView extends Backbone.View
   className: 'app container'
 
   template: _.template '
-    <button id="startgame">Start Round!</button>
     <div class="game-container"></div>
     <div id="gameOverModal" class="modal">
       <div class="modal-content">
@@ -18,21 +17,32 @@ class window.AppView extends Backbone.View
 
   events:
     'click #startgame': ->
+      @$el.find(".hit-button").prop('disabled', false)
+      @$el.find(".stand-button").prop('disabled', false)
       @model.start()
+
 
   initialize: ->
     @render()
+    @$el.find(".hit-button").prop('disabled', true)
+    @$el.find(".stand-button").prop('disabled', true)
     @listenTo @model.get('game'), 'player_wins', (message) -> 
       @message = message
       @render()
+      @$el.find(".hit-button").prop('disabled', true)
+      @$el.find(".stand-button").prop('disabled', true)
       $('#gameOverModal').openModal({dismissible: false})
     @listenTo @model.get('game'), 'dealer_wins', (message) -> 
       @message = message  
       @render()
+      @$el.find(".hit-button").prop('disabled', true)
+      @$el.find(".stand-button").prop('disabled', true)
       $('#gameOverModal').openModal({dismissible: false})
     @listenTo @model.get('game'), 'tie', (message) -> 
       @message = message  
       @render()
+      @$el.find(".hit-button").prop('disabled', true)
+      @$el.find(".stand-button").prop('disabled', true)
       $('#gameOverModal').openModal({dismissible: false})
     @listenTo @model.get('game'), 'continue', @render
 
