@@ -3,12 +3,13 @@ class window.Round extends Backbone.Model
     @set 'playerHand', @deck.dealPlayer()
     @set 'dealerHand', @deck.dealDealer()
     
-    if @get('playerHand').checkBlackJack() and @get('dealerHand').checkBlackJack()
-      @endGame 'tie', 'Tie! Twin Blackjacks!' 
-    else if @get('playerHand').checkBlackJack()
-      @endGame 'player_wins', 'Player BlackJack! You Win!'
-    else if @get('dealerHand').checkBlackJack()
-      @endGame 'dealer_wins', 'Dealer Blackjack! Dealer Wins!'
+# needs to become checkblackjack function called somehow AFTER app initialization
+    # if @get('playerHand').checkBlackJack() and @get('dealerHand').checkBlackJack()
+    #   @endGame 'tie', 'Tie! Twin Blackjacks!' 
+    # else if @get('playerHand').checkBlackJack()
+    #   @endGame 'player_wins', 'Player BlackJack! You Win!'
+    # else if @get('dealerHand').checkBlackJack()
+    #   @endGame 'dealer_wins', 'Dealer Blackjack! Dealer Wins!'
 
   playerHits: ->
     @get('playerHand').hit()
@@ -44,4 +45,3 @@ class window.Round extends Backbone.Model
   endGame: (eventName, gameOverMessage) ->
     # might want to pass more complicated object with trigger later (e.g. player/dealer earnings multiplier)
     @trigger eventName, gameOverMessage
-    

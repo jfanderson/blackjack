@@ -5,6 +5,16 @@ class window.App extends Backbone.Model
     @set 'deck', deck = new Deck()
     @set 'round', round = new Round(@get('deck'))
 
-    @get('round').on('player_wins', (message) -> console.log(message))
-    @get('round').on('dealer_wins', (message) -> console.log(message))
-    @get('round').on('tie', (message) -> console.log(message))
+    @get('round').on 'player_wins', (message) -> 
+      console.log(message)
+      $('#gameOverModal').openModal({dismissible: false})
+    @get('round').on 'tie', (message) -> 
+      console.log(message)
+      $('#gameOverModal').openModal({dismissible: false})
+
+    return
+
+    # @get('round').on 'dealer_wins', (message) -> 
+    #   console.log(message)
+    #   $('#gameOverModal').openModal({dismissible: false})
+    
