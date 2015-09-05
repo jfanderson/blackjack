@@ -1,4 +1,4 @@
-class window.RoundView extends Backbone.View
+class window.GameView extends Backbone.View
   
   className: 'valign-wrapper round row'
 

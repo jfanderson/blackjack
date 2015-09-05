@@ -1,12 +1,15 @@
-class window.Round extends Backbone.Model
+class window.Game extends Backbone.Model
   initialize: (@deck) ->
     @set 'playerHand', @deck.dealPlayer()
+    @get('playerHand').at(0).flip()
+    @get('playerHand').at(1).flip()
     @set 'dealerHand', @deck.dealDealer()
+    @get('dealerHand').at(1).flip()
 
   playerHits: ->
     @get('playerHand').hit()
     if @get('playerHand').checkBust()
-      @endGame 'dealer_wins', 'You Bust! Dealer Wins!'
+      @endRound 'dealer_wins', 'You Bust! Dealer Wins!'
 
   playerStands: ->
     @dealerPlays()
@@ -20,7 +23,7 @@ class window.Round extends Backbone.Model
       if @get('dealerHand').maxLegalScore() < 17
         @get('dealerHand').hit()
         if @get('dealerHand').checkBust()
-          @endGame 'player_wins', 'Dealer Busts! You Win!'
+          @endRound 'player_wins', 'Dealer Busts! You Win!'
           break
       else
         @compareScores()
@@ -28,22 +31,27 @@ class window.Round extends Backbone.Model
 
   compareScores: ->
     if @get('playerHand').maxLegalScore() > @get('dealerHand').maxLegalScore()
-      @endGame 'player_wins', "Player's #{@get('playerHand').maxLegalScore()} beats Dealer's #{@get('dealerHand').maxLegalScore()}. You Win!"
+      @endRound 'player_wins', "Player's #{@get('playerHand').maxLegalScore()} beats Dealer's #{@get('dealerHand').maxLegalScore()}. You Win!"
     else if @get('playerHand').maxLegalScore() == @get('dealerHand').maxLegalScore()
-      @endGame 'tie', "#{@get('playerHand').maxLegalScore()} and #{@get('dealerHand').maxLegalScore()}. It's a Tie!"
+      @endRound 'tie', "#{@get('playerHand').maxLegalScore()} and #{@get('dealerHand').maxLegalScore()}. It's a Tie!"
     else if @get('playerHand').maxLegalScore() < @get('dealerHand').maxLegalScore()
-      @endGame 'dealer_wins', "Dealer's #{@get('dealerHand').maxLegalScore()} beats Player's #{@get('playerHand').maxLegalScore()}. Dealer Wins!"
+      @endRound 'dealer_wins', "Dealer's #{@get('dealerHand').maxLegalScore()} beats Player's #{@get('playerHand').maxLegalScore()}. Dealer Wins!"
 
-  startRound: ->
+  startNewRound: ->
+    @set 'playerHand', @deck.dealPlayer()
+    @set 'dealerHand', @deck.dealDealer()
+
     if @get('playerHand').checkBlackJack() and @get('dealerHand').checkBlackJack()
       @get('dealerHand').at(0).flip()
-      @endGame 'tie', 'Tie! Twin Blackjacks!' 
+      @endRound 'tie', 'Tie! Twin Blackjacks!' 
     else if @get('playerHand').checkBlackJack()
-      @endGame 'player_wins', 'Player BlackJack! You Win!'
+      @endRound 'player_wins', 'Player BlackJack! You Win!'
     else if @get('dealerHand').checkBlackJack()
       @get('dealerHand').at(0).flip()
-      @endGame 'dealer_wins', 'Dealer Blackjack! Dealer Wins!'
+      @endRound 'dealer_wins', 'Dealer Blackjack! Dealer Wins!'
+    else
+      @trigger 'continue'
 
-  endGame: (eventName, gameOverMessage) ->
+  endRound: (eventName, gameOverMessage) ->
     # might want to pass more complicated object with trigger later (e.g. player/dealer earnings multiplier)
     @trigger eventName, gameOverMessage

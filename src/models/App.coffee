@@ -3,18 +3,15 @@
 class window.App extends Backbone.Model
   initialize: ->
     @set 'deck', deck = new Deck()
-    @set 'round', round = new Round(@get('deck'))
+    @set 'game', game = new Game(@get('deck'))
     
-    @listenTo @get('round'), 'player_wins', (message) -> 
+    @listenTo @get('game'), 'player_wins', (message) -> 
       console.log(message)
-      # $('#gameOverModal').openModal({dismissible: false})
-    @listenTo @get('round'), 'dealer_wins', (message) -> 
+    @listenTo @get('game'), 'dealer_wins', (message) -> 
       console.log(message)
-      # $('#gameOverModal').openModal({dismissible: false})
-    @listenTo @get('round'), 'tie', (message) -> 
+    @listenTo @get('game'), 'tie', (message) -> 
       console.log(message)
-      # $('#gameOverModal').openModal({dismissible: false})
-    return    
 
   start: ->
-    @get('round').startRound()
+    @get('game').startNewRound()
+   

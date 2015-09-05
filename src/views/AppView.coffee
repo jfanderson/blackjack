@@ -3,43 +3,44 @@ class window.AppView extends Backbone.View
   className: 'app container'
 
   template: _.template '
-    <div class="round-container"></div>
-    <div class="modal-trigger" href="#gameOverModal"></div>
+    <button id="startgame">Start Round!</button>
+    <div class="game-container"></div>
     <div id="gameOverModal" class="modal">
       <div class="modal-content">
         <h4>Round Over</h4>
         <p><%= message %></p>
       </div>
       <div class="modal-footer">
-        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Play Again</a>
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Okay!</a>
       </div>
     </div>
   '
 
-  defaults: {
-    message: 'No message'
-  }
+  events:
+    'click #startgame': ->
+      @model.start()
 
   initialize: ->
     @render()
-    @listenTo @model.get('round'), 'player_wins', (message) -> 
+    @listenTo @model.get('game'), 'player_wins', (message) -> 
       @message = message
-      @render()  
+      @render()
       $('#gameOverModal').openModal({dismissible: false})
-    @listenTo @model.get('round'), 'dealer_wins', (message) -> 
+    @listenTo @model.get('game'), 'dealer_wins', (message) -> 
       @message = message  
       @render()
       $('#gameOverModal').openModal({dismissible: false})
-    @listenTo @model.get('round'), 'tie', (message) -> 
+    @listenTo @model.get('game'), 'tie', (message) -> 
       @message = message  
       @render()
       $('#gameOverModal').openModal({dismissible: false})
-    
+    @listenTo @model.get('game'), 'continue', @render
+
 
   render: ->
     @$el.children().detach()
     @$el.html @template {'message': @message}
-    @$('.round-container').html new RoundView(model: @model.get('round')).el
+    @$('.game-container').html new GameView(model: @model.get('game')).el
 
 
 
